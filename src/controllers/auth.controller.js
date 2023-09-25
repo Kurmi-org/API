@@ -1,4 +1,4 @@
-import User from '../models/client.model.js';
+import Person from '../models/persons.model.js';
 import bcrypt from 'bcryptjs';
 import { createAccessToken } from '../libs/jwt.js';
 
@@ -11,6 +11,7 @@ export const registerClient = async (req, res) => {
         ci,
         user,
         password,
+        rol = 1,
         date_birth,
         departament,
         province,
@@ -21,12 +22,13 @@ export const registerClient = async (req, res) => {
 
     const passwordHast = await bcrypt.hash(password, 10);
      
-    const newUser = new User({
+    const newUser = new Person({
         name,
         last_names,
         ci,
         user,
         password: passwordHast,
+        rol,
         date_birth,
         location: {
             departament,
@@ -51,7 +53,9 @@ export const registerClient = async (req, res) => {
         location: {
             departament: userSaves.location.departament,
             province: userSaves.location.province,
-            address: userSaves.location.address
+            address: userSaves.location.address,
+            longitude: userSaves.rol == 2 ? userSaves.location.longitude : undefined,
+            latitude: userSaves.rol == 2 ? userSaves.location.latitude : undefined
         },
         phone: userSaves.phone,
         email: userSaves.email
@@ -70,9 +74,9 @@ export const registerProducer = async (req, res) => {
             name,
             last_names,
             ci,
-            
             user,
             password,
+            rol = 2,
             date_birth,
             departament,
             province,
@@ -85,12 +89,13 @@ export const registerProducer = async (req, res) => {
      
       const passwordHast = await bcrypt.hash(password, 10);
 
-      const newProducer = new Producer({
+      const newProducer = new Person({
             name,
             last_names,
             ci,
             user,
             password: passwordHast,
+            rol,
             date_birth,
             location: {
                 departament,
@@ -118,8 +123,8 @@ export const registerProducer = async (req, res) => {
                 departament: producerSaves.location.departament,
                 province: producerSaves.location.province,
                 address: producerSaves.location.address,
-                latitude: producerSaves.location.latitude,
-                longitude: producerSaves.location.longitude
+                longitude: producerSaves.location.longitude,
+                latitude: producerSaves.location.latitude
             },
             phone: producerSaves.phone,
             email: producerSaves.email
@@ -129,13 +134,12 @@ export const registerProducer = async (req, res) => {
     }
 };
 
-
 export const login = async (req, res) => {
    try{
 
     const {user, password} = req.body;
 
-    const userFound = await User.findOne({user: user});
+    const userFound = await Person.findOne({user: user});
     if(!userFound) return res.status(400).json({message: "incorrect credentials"});
 
 
@@ -149,13 +153,16 @@ export const login = async (req, res) => {
         id: userFound._id,
         name: userFound.name,
         last_names: userFound.last_names,
+        rol: userFound.rol == 1 ? "client" : "producer",
         ci: userFound.ci,
         user: userFound.user,
         date_birth: userFound.date_birth,
         location: {
             departament: userFound.location.departament,
             province: userFound.location.province,
-            address: userFound.location.address
+            address: userFound.location.address,
+            latitude: userFound.rol == 2 ? userFound.location.latitude : undefined,
+            longitude: userFound.rol == 2 ? userFound.location.longitude : undefined
         },
         phone: userFound.phone,
         email: userFound.email
