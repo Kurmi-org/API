@@ -134,6 +134,30 @@ export const registerProducer = async (req, res) => {
     }
 };
 
+//perfile
+export const getProfileById = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const user = await Person.findById(id, {name: 1, last_names: 1, ci: 1,  user: 1, date_birth: 1, rol:1, location: 1, phone: 1, email: 1});
+        const token = await createAccessToken({id: user._id});
+        res.cookie("token", token);
+        res.status(200).json({
+            id: user._id,
+            name: user.name,
+            last_names: user.last_names,
+            ci: user.ci,
+            user: user.user,
+            date_birth: user.date_birth,
+            rol: user.rol == 1 ? "client" : "producer",
+            phone: user.phone,
+            email: user.email
+        });
+    }catch(error){
+        res.status(500).json({message: error.message});
+    }
+};
+
+
 export const login = async (req, res) => {
    try{
 

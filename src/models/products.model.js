@@ -5,18 +5,19 @@ const productsModel = new mongoose.Schema({
     description: {type: String, required: true, trim: true},
     price : {type: Number, required: true},
     stock : {type: Number, required: true},
-    Unit : {type: String, required: true, trim: true},
-    Images: [{
+    unit : {type: String, required: true, trim: true},
+    images: [{
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true
     }],
     type : {type: String, required: true, trim: true},
-    RaadyForsale : {type: Date, required: true},
+    readyForSale : {type: Date, required: true},
     status : {type:Number, default: 1},
     date_created : {type: Date, default: Date.now},
     date_updated : {type: Date, default: Date.now}, 
-    Producer : {type: mongoose.Schema.Types.ObjectId, ref: 'persons'}
-})
+    producer : {type: mongoose.Schema.Types.ObjectId, ref: 'persons'}
+});
 
 export default mongoose.model('products', productsModel);
