@@ -22,8 +22,6 @@ export const createOrder = async (req, res) => {
         });
 
         const orderSaved = await newOrder.save();
-        const token = await createAccessToken({id: orderSaved._id});
-        res.cookie("token", token);
         res.status(201).json(orderSaved);
         
     }catch(error){
@@ -37,8 +35,6 @@ export const createOrder = async (req, res) => {
 export const getOrders = async (req, res) => {
     try{
         const orders = await Order.find();
-        const token = await createAccessToken({id: orders._id});
-        res.cookie("token", token);
         res.status(200).json(orders);
     }catch(error){
         console.log(error);
@@ -53,9 +49,36 @@ export const getOrderById = async (req, res) => {
 
     try{
         const order = await Order.findById(orderId);
-        const token = await createAccessToken({id: order._id});
-        res.cookie("token", token);
         res.status(200).json(order);
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}
+
+//mostrar un control de ventas por productor
+export const getSalesByProducer = async (req, res) => {
+    const producerId = req.params.id;
+
+    try{
+        const orders = await Order.find({producer: producerId});
+        res.status(200).json(orders);
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}
+
+//mostrar la cantidad de ordenes completadas y sus ordenes pendientes
+
+export const getOrdersByStatus = async (req, res) => {
+    const status = req.params.status;
+
+    try{
+        const orders = await Order.find({status: status});
+        res.status(200).json(orders);
     }
     catch(error){
         console.log(error);

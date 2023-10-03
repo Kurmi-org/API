@@ -51,10 +51,7 @@ export const createProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
     try{
-        //que solo muestre: images, name, price, stock, unit, producer
         const products = await Product.find({}, {images: 1, name: 1, price: 1, stock: 1, unit: 1, producer: 1});
-        const token = await createAccessToken({id: products._id});
-        res.cookie("token", token);
         res.json(products);
     }catch(error){
         console.log(error);
@@ -66,11 +63,21 @@ export const getProductById = async (req, res) => {
     try{
         const productId = req.params.id;
         const product = await Product.findById(productId);
-        const token = await createAccessToken({id: product._id});
-        res.cookie("token", token);
         res.json(product);
 
 
+    }catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}
+
+//lista de productos segun el id del productor
+export const getProductsByProducer = async (req, res) => {
+    try{
+        const producerId = req.params.id;
+        const products = await Product.find({producer: producerId});
+        res.json(products);
     }catch(error){
         console.log(error);
         res.status(500).json({message: "Something goes wrong"});

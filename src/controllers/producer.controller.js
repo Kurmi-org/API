@@ -5,8 +5,6 @@ import { createAccessToken } from '../libs/jwt.js';
 export const getProducer = async (req, res) => {
     try{
         const producers = await Person.find({rol: 2}, {ci: 1, user: 1, date_birth: 1, phone: 1, email: 1});
-        const token = await createAccessToken({id: producers._id});
-        res.cookie("token", token);
         res.status(200).json(producers);
     }catch(error){
         console.log(error);
@@ -20,8 +18,6 @@ export const getProducerById = async (req, res) => {
         //mostrar datos del productor:  ci, user, date_birth, location, phone, email
 
         const producer = await Person.findById(producerId, {ci: 1, user: 1, date_birth: 1, location: 1, phone: 1, email: 1});
-        const token = await createAccessToken({id: producer._id});
-        res.cookie("token", token);
         res.json(producer);
 
 

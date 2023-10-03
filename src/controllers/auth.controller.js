@@ -139,8 +139,6 @@ export const getProfileById = async (req, res) => {
     try{
         const {id} = req.params;
         const user = await Person.findById(id, {name: 1, last_names: 1, ci: 1,  user: 1, date_birth: 1, rol:1, location: 1, phone: 1, email: 1});
-        const token = await createAccessToken({id: user._id});
-        res.cookie("token", token);
         res.status(200).json({
             id: user._id,
             name: user.name,
