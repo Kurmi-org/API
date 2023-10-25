@@ -6,13 +6,12 @@ export const authRequired = (req, res, next) => {
     const {token} = req.cookies;
     if(!token) return res.status(401).json({message: 'Unauthorized'});
 
-     jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
+    jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
             if(err) {
-                return res.status(401).json({message: 'Unauthorized'});
+                return res.status(403).json({message: 'Unauthorized'});
             }
-            req.userId = decoded.id;
-
-            console.log('decoded', decoded);
+            req.decoded = decoded;
+            console.log(decoded);
             next();
         });
 
