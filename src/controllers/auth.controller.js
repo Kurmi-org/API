@@ -195,7 +195,7 @@ export const login = async (req, res) => {
    
     res.cookie("token", token);
     res.json({
-        tocekn: token,
+        token: token,
         rol: roles[userFound.rol],
         
     });
