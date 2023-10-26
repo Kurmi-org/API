@@ -62,7 +62,7 @@ export const deleteProduct = async (req, res) => {
 }
 export const getProductsByProducer = async (req, res) => {
     const products = await Product.find({
-        producer: req.params.id}).populate('producer');
+        producer: req.params.id});
     if(!products) return res.status(404).json({message: "Products not found"})
     res.json(products);
 }
