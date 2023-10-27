@@ -111,10 +111,6 @@ export const registerProducer = async (req, res) => {
          email
      });
      const userSaves =  await newUser.save();
-
-    const token =await createAccessToken({id: userSaves._id});
-     
-      res.cookie("token", token);
       res.json({
             id: userSaves._id,
             name: userSaves.name,
@@ -211,3 +207,25 @@ export const logout = async (req, res) => {
     });
     res.status(200).json({message: "logout"});
 };
+
+
+//update password person logged
+export const updatePassword = async (req, res) => {
+    const userId = req.decoded.id;
+    try{
+        const user = await Person.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if(!isMatch) return res.status(400).json({message: "incorrect credentials"});
+        const passwordHast = await bcrypt.hash(req.body.newPassword, 10);
+        user.password = passwordHast;
+        const updatedUser = await user.save();
+        res.json(updatedUser);
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}

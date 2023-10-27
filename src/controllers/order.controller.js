@@ -1,6 +1,16 @@
 import Order from '../models/orders.model.js';
-import { createAccessToken } from '../libs/jwt.js';
 
+//obtener ordenes
+
+export const getOrders = async (req, res) => {
+    try{
+        const orders = await Order.find();
+        res.status(200).json(orders);
+    }catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}
 //crear orden
 
 export const createOrder = async (req, res) => {
@@ -30,18 +40,6 @@ export const createOrder = async (req, res) => {
     }
 }
 
-//obtener ordenes
-
-export const getOrders = async (req, res) => {
-    try{
-        const orders = await Order.find();
-        res.status(200).json(orders);
-    }catch(error){
-        console.log(error);
-        res.status(500).json({message: "Something goes wrong"});
-    }
-}
-
 //obtener orden por id
 
 export const getOrderById = async (req, res) => {
@@ -56,6 +54,41 @@ export const getOrderById = async (req, res) => {
         res.status(500).json({message: "Something goes wrong"});
     }
 }
+ //actualizar orden
+export const updateOrderById = async (req, res) => {
+    const orderId = req.params.id;
+    try{
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+        order.status = req.body.status;
+        order.updatedAt = Date.now();
+        const updatedOrder = await order.save();
+        res.json(updatedOrder);
+    } catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}
+
+export const deleteOrderById = async (req, res) => {
+    //eliminar orden
+    const orderId = req.params.id;
+    try{
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+        await order.remove();
+        res.json({ message: "Order deleted" });
+    } catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}
+
+
 
 //mostrar un control de ventas por productor
 export const getSalesByProducer = async (req, res) => {
@@ -85,3 +118,4 @@ export const getOrdersByStatus = async (req, res) => {
         res.status(500).json({message: "Something goes wrong"});
     }
 }
+
