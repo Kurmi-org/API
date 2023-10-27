@@ -1,4 +1,4 @@
-import Person from '../models/person.model.js';
+import Person from '../models/persons.model.js';
 import bcrypt from 'bcryptjs';
 
 export const updateClient = async (req, res) => {
