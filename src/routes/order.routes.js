@@ -5,7 +5,10 @@ import {
     getOrders,
     getOrderById,
     getSalesByProducer,
-    getOrdersByStatus
+    getOrdersByStatus,
+    updateOrderById,
+    deleteOrderById
+
 } from "../controllers/order.controller.js";
 
 const router = Router();
@@ -15,5 +18,7 @@ router.get("/getOrders",authRequired,getOrders);
 router.get("/getOrderById/:id", getOrderById);
 router.get("/getSalesByProducer/:id",authRequired, getSalesByProducer);
 router.get("/getOrdersByStatus/:status",authRequired, getOrdersByStatus);
+router.put("/updateOrderById/:id",authRequired, updateOrderById);
+router.delete("/deleteOrderById/:id",authRequired, deleteOrderById);
 
 export default router;

@@ -1,85 +1,70 @@
 import Product from '../models/products.model.js';
 import { createAccessToken } from '../libs/jwt.js';
 
-export const createProduct = async (req, res) => {
-    try{
-        const {
-            name,
-            description,
-            price,
-            stock,
-            unit,
-            images,
-            type,
-            readyForSale,
-            producer
-        } = req.body;
-
-        const newProduct = new Product({
-            name,
-            description,
-            price,
-            stock,
-            unit,
-            images,
-            type,
-            readyForSale,
-            producer
-        });
-        const productSaves = await newProduct.save();
-        
-        const token = await createAccessToken({id: productSaves._id});
-
-        res.cookie("token", token);
-        res.json({
-            id: productSaves._id,
-            name: productSaves.name,
-            description: productSaves.description,
-            price: productSaves.price,
-            stock: productSaves.stock,
-            unit: productSaves.unit,
-            images: productSaves.images,
-            type: productSaves.type,
-            readyForSale: productSaves.readyForSale,
-            producer: productSaves.producer
-        });
-    }catch(error){
-        console.log(error);
-        res.status(500).json({message: "Something goes wrong"});
-    }
-}
-
 export const getProducts = async (req, res) => {
+    const products = await Product.find();
+    res.json(products);
+
+}
+
+export const createProduct = async (req, res) => {
+
     try{
-        const products = await Product.find({}, {images: 1, name: 1, price: 1, stock: 1, unit: 1, producer: 1});
-        res.json(products);
+        
+        const { 
+            name, 
+            description, 
+            price, 
+            stock, 
+            unit, 
+            images = [],
+            type, 
+            readyForSale, 
+            producer } = req.body;
+
+        const newProduct = new Product({ 
+            name, 
+            description, 
+            price, 
+            stock, 
+            unit, 
+            images,
+            type, 
+            readyForSale, 
+            producer });
+
+        const productSaves = await newProduct.save();
+        res.status(200).json(productSaves);
     }catch(error){
         console.log(error);
         res.status(500).json({message: "Something goes wrong"});
     }
 }
 
-export const getProductById = async (req, res) => {
-    try{
-        const productId = req.params.id;
-        const product = await Product.findById(productId);
-        res.json(product);
-
-
-    }catch(error){
-        console.log(error);
-        res.status(500).json({message: "Something goes wrong"});
-    }
+export const getProduct = async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if(!product) return res.status(404).json({message: "Product not found"})
+    res.json(product);
 }
 
-//lista de productos segun el id del productor
+export const updateProduct = async (req, res) => {
+    const  product = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    if(!product) return res.status(404).json({message: "Product not found"})
+    res.json(product);
+
+    
+}
+export const deleteProduct = async (req, res) => {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if(!product) return res.status(404).json({message: "Product not found"})
+    res.json({message: "Product deleted successfully"});
+
+}
 export const getProductsByProducer = async (req, res) => {
-    try{
-        const producerId = req.params.id;
-        const products = await Product.find({producer: producerId});
-        res.json(products);
-    }catch(error){
-        console.log(error);
-        res.status(500).json({message: "Something goes wrong"});
-    }
+    const products = await Product.find({
+        producer: req.params.id});
+    if(!products) return res.status(404).json({message: "Products not found"})
+    res.json(products);
 }
+
+
