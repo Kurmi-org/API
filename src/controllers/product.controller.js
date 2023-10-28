@@ -68,3 +68,19 @@ export const getProductsByProducer = async (req, res) => {
 }
 
 
+export const updateStock = async (req, res) => {
+    const { productId, quantity } = req.body;
+    try {
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        product.stock -= quantity;
+        await product.save();
+        res.status(200).json({ message: 'Stock updated successfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+};
+

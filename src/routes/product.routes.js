@@ -6,7 +6,8 @@ import {
     getProduct,
     updateProduct,
     deleteProduct,
-    getProductsByProducer
+    getProductsByProducer,
+    updateStock
     
 } from "../controllers/product.controller.js";
 import { authRequired } from "../middlewares/validateToken.js";
@@ -18,6 +19,7 @@ router.get("/getProductsByProducer/:id", getProductsByProducer);
 router.get("/getProduct/:id", getProduct);
 router.post("/createProduct",authRequired, createProduct);
 router.put("/updateProduct/:id",authRequired, updateProduct);
+router.put("/updateStock/:id",authRequired, updateStock);
 router.delete("/deleteProduct/:id",authRequired, deleteProduct);
 
 

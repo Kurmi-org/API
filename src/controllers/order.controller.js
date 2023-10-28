@@ -24,13 +24,16 @@ export const createOrder = async (req, res) => {
         } = req.body;
 
         const newOrder = new Order({
-            quantity,
             price,
             total,
-            product,
+            products: [
+                {
+                    product,
+                    quantity
+                }
+            ],
             client
         });
-
         const orderSaved = await newOrder.save();
         res.status(201).json(orderSaved);
         
