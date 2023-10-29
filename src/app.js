@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
+import swagger from './swagger.js';
 
 import authRoutes from "./routes/auth.routes.js";
 import productRoutes from "./routes/product.routes.js";
@@ -10,6 +11,7 @@ import orderRoutes from "./routes/order.routes.js";
 import clientRouter from "./routes/client.routes.js";
 
 const app = express();
+swagger(app);
 
 app.use(morgan("dev"));
 app.use(express.json());
