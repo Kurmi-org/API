@@ -189,7 +189,7 @@ router.post('/login', validatorSchema(loginSchema), login)
  */
 
 //el logout solo se puede hacer si el usuario esta logueado
-router.post('/logout',logout)
+router.post('/logout', logout)
 /**
  * @swagger
  * /api/updatePassword:

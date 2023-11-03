@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 //obtener productor
 export const getProducer = async (req, res) => {
     try{
-        const producers = await Person.find();
+        const producers = await Person.find({rol:2});
         res.status(200).json(producers);
     }catch(error){
         console.log(error);
