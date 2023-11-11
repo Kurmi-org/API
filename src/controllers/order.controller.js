@@ -126,10 +126,10 @@ export const getOrdersByStatus = async (req, res) => {
     }
 }
 
-//mostrar las ordenes de un cliente
+//mostrar las ordenes de un cliente que se a logueado
 
 export const getOrdersByClient = async (req, res) => {
-    const clientId = req.params.id;
+    const clientId = req.decoded.id;
 
     try{
         const orders = await Order.find({client: clientId});
