@@ -21,6 +21,6 @@ router.get("/getSalesByProducer/:id",authRequired, getSalesByProducer);
 router.get("/getOrdersByStatus/:status",authRequired, getOrdersByStatus);
 router.put("/updateOrderById/:id",authRequired, updateOrderById);
 router.delete("/deleteOrderById/:id",authRequired, deleteOrderById);
-router.get("/getOrdersByClient/:id",authRequired, getOrdersByClient);
+router.get("/getOrdersByClient",authRequired, getOrdersByClient);
 
 export default router;
