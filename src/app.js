@@ -9,6 +9,7 @@ import productRoutes from "./routes/product.routes.js";
 import producerRoutes from "./routes/producer.routes.js";
 import orderRoutes from "./routes/order.routes.js";
 import clientRouter from "./routes/client.routes.js";
+import rateRouter from "./routes/rate.routes.js";
 
 const app = express();
 swagger(app);
@@ -24,5 +25,6 @@ app.use('/api',productRoutes);
 app.use('/api',producerRoutes);
 app.use('/api',orderRoutes);
 app.use('/api',clientRouter);
+app.use('/api',rateRouter);
 
 export default app;
