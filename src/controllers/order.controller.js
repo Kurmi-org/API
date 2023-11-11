@@ -15,13 +15,14 @@ export const getOrders = async (req, res) => {
 //crear orden
 
 export const createOrder = async (req, res) => {
+    const clientId = req.decoded.id;
     try{
         const {
             status,
             price,
             total,
             products,
-            client
+            client = clientId
         } = req.body;
 
         const newOrder = new Order({
