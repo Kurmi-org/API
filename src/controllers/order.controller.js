@@ -1,4 +1,5 @@
 import Order from '../models/orders.model.js';
+import Product from '../models/products.model.js';
 
 //obtener ordenes
 
@@ -107,6 +108,9 @@ export const getSalesByProducer = async (req, res) => {
     }
 }
 
+
+
+
 //mostrar la cantidad de ordenes completadas y sus ordenes pendientes
 
 export const getOrdersByStatus = async (req, res) => {
@@ -122,3 +126,17 @@ export const getOrdersByStatus = async (req, res) => {
     }
 }
 
+//mostrar las ordenes de un cliente
+
+export const getOrdersByClient = async (req, res) => {
+    const clientId = req.params.id;
+
+    try{
+        const orders = await Order.find({client: clientId});
+        res.status(200).json(orders);
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}
