@@ -17,22 +17,18 @@ export const getOrders = async (req, res) => {
 export const createOrder = async (req, res) => {
     try{
         const {
-            quantity,
+            status,
             price,
             total,
-            product,
+            products,
             client
         } = req.body;
 
         const newOrder = new Order({
+            status,
             price,
             total,
-            products: [
-                {
-                    product,
-                    quantity
-                }
-            ],
+            products,
             client
         });
         const orderSaved = await newOrder.save();
