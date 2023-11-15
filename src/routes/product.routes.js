@@ -7,7 +7,8 @@ import {
     updateProduct,
     deleteProduct,
     getProductsByProducer,
-    updateStock
+    updateStock,
+    getProdForDashboard
     
 } from "../controllers/product.controller.js";
 import { authRequired } from "../middlewares/validateToken.js";
