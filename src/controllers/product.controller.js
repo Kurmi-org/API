@@ -68,6 +68,8 @@ export const getProductsByProducer = async (req, res) => {
 }
 
 
+
+
 export const updateStock = async (req, res) => {
     const product = await Product.findById(req.params.id);
     if(!product) return res.status(404).json({message: "Product not found"})
