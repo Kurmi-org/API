@@ -55,6 +55,19 @@ export const getOrderById = async (req, res) => {
         res.status(500).json({message: "Something goes wrong"});
     }
 }
+export const getOrderByFullId = async (req, res) => {
+    const orderId = req.params.id;
+
+    try{
+        const order = await Order.findById(orderId).populate("products.product").populate("client");
+        res.status(200).json(order);
+        
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something goes wrong"});
+    }
+}
  //actualizar orden
 export const updateOrderById = async (req, res) => {
     const orderId = req.params.id;

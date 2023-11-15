@@ -4,11 +4,13 @@ import {
     createOrder,
     getOrders,
     getOrderById,
+    getOrderByFullId,
     getSalesByProducer,
     getOrdersByStatus,
     updateOrderById,
     deleteOrderById,
     getOrdersByClient
+
 
 } from "../controllers/order.controller.js";
 
@@ -17,6 +19,7 @@ const router = Router();
 router.post("/createOrder",authRequired, createOrder);
 router.get("/getOrders",authRequired,getOrders);
 router.get("/getOrderById/:id", getOrderById);
+router.get("/getOrderByFullId/:id", getOrderByFullId);
 router.get("/getSalesByProducer/:id",authRequired, getSalesByProducer);
 router.get("/getOrdersByStatus/:status",authRequired, getOrdersByStatus);
 router.put("/updateOrderById/:id",authRequired, updateOrderById);
