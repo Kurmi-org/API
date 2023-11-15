@@ -7,7 +7,8 @@ import {
     updateProduct,
     deleteProduct,
     getProductsByProducer,
-    updateStock
+    updateStock,
+    getProductsProducer
     
 } from "../controllers/product.controller.js";
 import { authRequired } from "../middlewares/validateToken.js";
@@ -15,8 +16,9 @@ import { authRequired } from "../middlewares/validateToken.js";
 const router = Router();
 
 router.get("/getProducts", getProducts);
-router.get("/getProductsByProducer/:id",  getProductsByProducer);
+router.get("/getProductsByProducer/:id", getProductsByProducer);
 router.get("/getProduct/:id", getProduct);
+router.get("/getProductsProducer", authRequired, getProductsProducer);
 router.post("/createProduct",authRequired, createProduct);
 router.put("/updateProduct/:id",authRequired, updateProduct);
 router.put("/updateStock/:id",authRequired, updateStock);

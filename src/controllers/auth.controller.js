@@ -211,21 +211,21 @@ export const logout = async (req, res) => {
 
 //update password person logged
 export const updatePassword = async (req, res) => {
-    const userId = req.decoded.id;
-    try{
-        const user = await Person.findById(userId);
+    try {
+        // Buscar al usuario por email en lugar de por ID.
+        const user = await Person.findOne({ email: req.body.email });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        const isMatch = await bcrypt.compare(req.body.password, user.password);
-        if(!isMatch) return res.status(400).json({message: "incorrect credentials"});
-        const passwordHast = await bcrypt.hash(req.body.newPassword, 10);
-        user.password = passwordHast;
+
+        const passwordHash = await bcrypt.hash(req.body.newPassword, 10);
+        user.password = passwordHash;
+
+        // Guardar el usuario actualizado.
         const updatedUser = await user.save();
-        res.json(updatedUser);
+        res.json({ message: "Password updated successfully", userId: updatedUser._id });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Something went wrong" });
     }
-    catch(error){
-        console.log(error);
-        res.status(500).json({message: "Something goes wrong"});
-    }
-}
+};

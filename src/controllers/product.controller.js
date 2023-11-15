@@ -67,7 +67,15 @@ export const getProductsByProducer = async (req, res) => {
     res.json(products);
 }
 
+export const getProductsProducer = async (req, res) => {
+    const products = await Product.find({ producer: req.decoded.id });
 
+    if (products.length === 0) {
+        return res.status(404).json({ message: "Products not found" });
+    }
+
+    res.json(products);
+}
 
 
 export const updateStock = async (req, res) => {

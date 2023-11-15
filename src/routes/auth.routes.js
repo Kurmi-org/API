@@ -232,6 +232,6 @@ router.post('/logout', logout)
  */
 
 //el updatePassword solo se puede hacer si el usuario esta logueado
-router.put('/updatePassword', authRequired, updatePassword)
+router.put('/updatePassword', updatePassword)
 
 export default router;
