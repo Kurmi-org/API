@@ -18,6 +18,18 @@ export const addRate = async (req, res) => {
     }
 }
 */
+//mostrar tasa
+
+export const getRate = async (req, res) => {
+    try {
+        const rate = await Rate.find();
+        res.status(200).json(rate);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Something goes wrong' });
+    }
+};
+
 
 //actualizar tasa
 
@@ -42,3 +54,4 @@ export const updateRate = async (req, res) => {
         res.status(500).json({ message: 'Error updating rate' });
     }
 };
+
