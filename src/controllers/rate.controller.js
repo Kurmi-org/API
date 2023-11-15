@@ -35,7 +35,7 @@ export const getRate = async (req, res) => {
 
 export const updateRate = async (req, res) => {
     const id = '654ee1ba86b3d653c7e357f7'; // ID por defecto
-    const { rateValue } = req.body;
+    const update = req.body; // Objeto de actualización
 
     try {
         const rate = await Rate.findById(id);
@@ -44,7 +44,10 @@ export const updateRate = async (req, res) => {
             return res.status(404).json({ message: 'Rate not found' });
         }
 
-        rate.value = rateValue;
+        // Actualiza los campos del registro con los valores en el objeto de actualización
+        for (let key in update) {
+            rate[key] = update[key];
+        }
 
         const updatedRate = await rate.save();
 
