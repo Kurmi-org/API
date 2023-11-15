@@ -20,7 +20,7 @@ router.post("/createOrder",authRequired, createOrder);
 router.get("/getOrders",authRequired,getOrders);
 router.get("/getOrderById/:id", getOrderById);
 router.get("/getOrderByFullId/:id", getOrderByFullId);
-router.get("/getSalesByProducer/:id",authRequired, getSalesByProducer);
+router.get("/getSalesByProducer",authRequired, getSalesByProducer);
 router.get("/getOrdersByStatus/:status",authRequired, getOrdersByStatus);
 router.put("/updateOrderById/:id",authRequired, updateOrderById);
 router.delete("/deleteOrderById/:id",authRequired, deleteOrderById);
