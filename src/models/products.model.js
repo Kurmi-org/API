@@ -21,4 +21,4 @@ const productsModel = new mongoose.Schema({
     producer : {type: mongoose.Schema.Types.ObjectId, ref: 'persons'}
 });
 
-export default mongoose.model('products', productsModel);
+export default mongoose.models.products || mongoose.model('products', productsModel);

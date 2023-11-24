@@ -7,4 +7,4 @@ const rateModel = new mongoose.Schema({
     date_updated : {type: Date, default: Date.now}
 });
 
-export default mongoose.model('rates', rateModel);
+export default mongoose.models.rates || mongoose.model('rates', rateModel);

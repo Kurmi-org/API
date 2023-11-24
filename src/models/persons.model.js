@@ -24,4 +24,4 @@ const personsModel = new mongoose.Schema({
 
 })
 
-export default mongoose.model('persons', personsModel);
+export default mongoose.models.persons || mongoose.model('persons', personsModel);
